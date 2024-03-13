@@ -7,7 +7,7 @@ sudo apt upgrade -y
 
 ### Installing packages ###
 
-sudo apt install feh kitty rofi bspwm sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-font-manager thunar-media-tags-plugin thunar-volman lxpolkit x11-xserver-utils unzip wget curl pipewire wireplumber pavucontrol xarchiver build-essential linux-headers-$(uname -r) neofetch mangohud neovim lxappearance papirus-icon-theme lightdm fonts-noto-color-emoji psmisc dunst -y
+sudo apt install feh btop kitty rofi bspwm sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-font-manager thunar-media-tags-plugin thunar-volman lxpolkit x11-xserver-utils unzip wget curl pipewire wireplumber pavucontrol xarchiver build-essential linux-headers-$(uname -r) neofetch mangohud neovim lxappearance papirus-icon-theme lightdm fonts-noto-color-emoji psmisc dunst -y
 
 ### Installing browser ###
 
