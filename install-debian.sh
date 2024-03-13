@@ -20,7 +20,7 @@ sudo apt install thorium-browser -y
 ### Installing theme ###
 
 cd /usr/share/themes/
-git clone https://github.com/EliverLara/Nordic.git
+sudo git clone https://github.com/EliverLara/Nordic.git
 cd
 
 ### Enable lightdm ###
