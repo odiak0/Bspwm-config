@@ -17,6 +17,7 @@ bspc config normal_border_color '#1e1e28'
 # Autostart
 sxhkd &
 dunst &
+lxpolkit &
 polybar top &
 polybar top-second &
 feh --bg-fill ~/wallpaper/mazda.jpg
