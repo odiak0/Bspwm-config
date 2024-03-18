@@ -14,7 +14,7 @@ sudo pacman -Syu
 
 ### Installing packages ###
 
-yay -S --noconfirm feh btop kitty rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers neofetch mangohud neovim lxappearance papirus-icon-theme lightdm psmisc dunst
+yay -S --noconfirm feh btop kitty lightdm-gtk-greeter rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers neofetch mangohud neovim lxappearance papirus-icon-theme lightdm psmisc dunst
 
 ### Installing theme ###
 
