@@ -22,7 +22,7 @@ cd /usr/share/themes/
 sudo git clone https://github.com/EliverLara/Nordic.git
 cd
 
-### Enable lightdm ###
+### Enabling lightdm ###
 
 sudo systemctl enable lightdm
 sudo systemctl set-default graphical.target
