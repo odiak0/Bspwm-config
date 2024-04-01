@@ -5,7 +5,7 @@
 cd
 git clone https://aur.archlinux.org/yay.git
 cd yay
-makepkg -si
+makepkg -si --noconfirm --needed
 rm -rf ~/yay
 
 ### Updating system ###
@@ -14,7 +14,7 @@ sudo pacman -Syu
 
 ### Installing packages ###
 
-yay -S --noconfirm feh btop kitty github-desktop-bin vscodium-bin xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation thorium-browser-bin lightdm-gtk-greeter rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers neofetch mangohud neovim lxappearance papirus-icon-theme lightdm psmisc dunst
+yay -S --noconfirm --needed feh btop kitty github-desktop-bin vscodium-bin xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation thorium-browser-bin lightdm-gtk-greeter rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers neofetch mangohud neovim lxappearance papirus-icon-theme lightdm psmisc dunst
 
 ### Installing theme ###
 
