@@ -58,7 +58,7 @@ mv -vf ~/bspwm-config/kitty/kitty.conf ~/.config/kitty
 mkdir ~/.config/rofi
 mv -vf ~/bspwm-config/rofi/config.rasi ~/.config/rofi
 mkdir ~/wallpaper
-mv -vf ~/bspwm-config/wallpaper/mazda.jpg ~/wallpaper
+mv -vf ~/bspwm-config/wallpaper/* ~/wallpaper
 sudo mv -vf ~/bspwm-config/polybar/config.ini /etc/polybar
 
 GREEN='\033[0;32m'

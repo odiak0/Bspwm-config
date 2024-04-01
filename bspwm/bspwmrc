@@ -20,4 +20,4 @@ dunst &
 lxpolkit &
 polybar top &
 polybar top-second &
-feh --bg-fill ~/wallpaper/mazda.jpg
+feh --bg-fill --randomize ~/wallpaper/*
