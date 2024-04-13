@@ -66,5 +66,20 @@ sudo git clone https://github.com/EliverLara/Nordic.git
 cd
 fi
 
+read -rep "Would you like to install nvidia drivers? (y/n)" nvidia
+echo
+
+if [[ $nvidia =~ ^[Nn]$ ]]; then
+    printf "Not installed. \n"
+fi
+
+if [[ $nvidia =~ ^[Yy]$ ]]; then
+	printf "Installing nvidia drivers. \n"
+
+### Installing nvidia drivers ###
+
+yay -S --noconfirm nvidia lib32-nvidia-utils
+fi
+
 GREEN='\033[0;32m'
 printf "\n${GREEN} Now you can reboot!\n"

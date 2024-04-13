@@ -17,7 +17,7 @@ if [[ $pkgs =~ ^[Yy]$ ]]; then
 
 ### Installing packages ###
 
-sudo apt install feh btop kitty rofi bspwm fonts-liberation fonts-liberation2 sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-font-manager thunar-media-tags-plugin thunar-volman lxpolkit x11-xserver-utils unzip wget curl pipewire wireplumber pavucontrol xarchiver build-essential linux-headers-$(uname -r) neofetch mangohud neovim lxappearance papirus-icon-theme lightdm fonts-noto-color-emoji psmisc dunst -y
+sudo apt install feh btop kitty rofi bspwm xdg-desktop-portal-gtk fonts-liberation fonts-liberation2 sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-font-manager thunar-media-tags-plugin thunar-volman lxpolkit x11-xserver-utils unzip wget curl pipewire wireplumber pavucontrol xarchiver build-essential linux-headers-$(uname -r) neofetch mangohud neovim lxappearance papirus-icon-theme lightdm fonts-noto-color-emoji psmisc dunst -y
 
 ### Enabling lightdm ###
 
@@ -94,6 +94,7 @@ if [[ $configs =~ ^[Yy]$ ]]; then
 
 ### Moving configs ###
 
+mkdir -p ~/.config
 cd ~/bspwm-config/
 mkdir ~/.config/bspwm
 mv -vf ~/bspwm-config/bspwm/bspwmrc ~/.config/bspwm
