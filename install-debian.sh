@@ -1,5 +1,9 @@
 #!/bin/bash
 
+### Set the script to exit on error ###
+
+set -e
+
 ### Updating system ###
 
 sudo apt update
