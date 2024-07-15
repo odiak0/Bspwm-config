@@ -1,8 +1,7 @@
 #!/bin/bash
 
-### Set the script to exit on error ###
-
-set -e
+GREEN="\e[32m"
+ENDCOLOR="\e[0m"
 
 ### Updating system ###
 
@@ -20,15 +19,15 @@ if [[ $pkgs =~ ^[Yy]$ ]]; then
 
 ### Installing yay ###
 
-cd
+cd || exit
 git clone https://aur.archlinux.org/yay.git
-cd yay
+cd yay || exit
 makepkg -si --noconfirm --needed
 rm -rf ~/yay
 
 ### Installing packages ###
 
-yay -S --noconfirm --needed feh btop kitty flameshot xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation thorium-browser-bin lightdm-gtk-greeter rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers fastfetch neovim lxappearance papirus-icon-theme lightdm psmisc dunst
+yay -S --noconfirm --needed feh btop kitty picom flameshot xclip xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation thorium-browser-bin lightdm-gtk-greeter rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers fastfetch neovim lxappearance papirus-icon-theme lightdm psmisc dunst
 
 ### Enabling lightdm ###
 
@@ -48,7 +47,7 @@ if [[ $configs =~ ^[Yy]$ ]]; then
 
 ### Moving configs ###
 
-cd ~/bspwm-config/
+cd ~/bspwm-config/ || exit
 mkdir ~/.config/bspwm
 mv -vf ~/bspwm-config/bspwm/bspwmrc ~/.config/bspwm
 chmod +x ~/.config/bspwm/bspwmrc
@@ -65,9 +64,9 @@ sudo mv -vf ~/bspwm-config/polybar/config.ini /etc/polybar
 
 ### Installing theme ###
 
-cd /usr/share/themes/
+cd /usr/share/themes/ || exit
 sudo git clone https://github.com/EliverLara/Nordic.git
-cd
+cd || exit
 fi
 
 read -rep "Would you like to install nvidia drivers? (y/n)" nvidia
@@ -85,5 +84,4 @@ if [[ $nvidia =~ ^[Yy]$ ]]; then
 yay -S --noconfirm nvidia lib32-nvidia-utils
 fi
 
-GREEN='\033[0;32m'
-printf "\n${GREEN} Now you can reboot!\n"
+echo -e "${GREEN}Now you can reboot!${ENDCOLOR}"

@@ -16,6 +16,8 @@ bspc config normal_border_color '#1e1e28'
 
 # Autostart
 sxhkd &
+picom -b &
+flameshot &
 dunst &
 lxpolkit &
 polybar top &
