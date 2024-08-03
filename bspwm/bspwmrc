@@ -17,7 +17,7 @@ bspc config normal_border_color '#1e1e28'
 # Autostart
 xsetroot -cursor_name left_ptr
 sxhkd &
-picom -b &
+picom -b --no-vsync
 flameshot &
 dunst &
 lxpolkit &
