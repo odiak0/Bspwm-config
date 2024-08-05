@@ -27,7 +27,7 @@ rm -rf ~/yay
 
 ### Installing packages ###
 
-yay -S --noconfirm --needed feh btop kitty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation thorium-browser-bin rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
+yay -S --noconfirm --needed feh btop kitty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code ttf-dejavu ttf-liberation google-chrome rofi bspwm sxhkd polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
 
 ### Enabling sddm ###
 

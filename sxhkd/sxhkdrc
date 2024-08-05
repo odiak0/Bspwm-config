@@ -20,7 +20,7 @@ alt + F4
 
 # browser
 super + m
-	thorium-browser
+	google-chrome-stable
 
 # program launcher
 super + r
