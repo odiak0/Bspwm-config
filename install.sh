@@ -6,14 +6,39 @@ RED="\e[31m"
 YELLOW="\e[33m"
 ENDCOLOR="\e[0m"
 
+# Function to display colored messages
+print_message() {
+    local message="$1"
+    local color="$2"
+    echo -e "${color}${message}${ENDCOLOR}"
+}
+
 # Check if pacman exists
 if ! command -v pacman &> /dev/null; then
     print_message "Error: pacman not found. This script is intended for Arch-based systems." "$RED"
     exit 1
 fi
 
+# Function to check and install Git
+check_and_install_git() {
+    if ! command -v git &> /dev/null; then
+        print_message "Git is not installed. Installing Git..." "$YELLOW"
+        sudo pacman -S --noconfirm git
+        if command -v git &> /dev/null; then
+            print_message "Git has been successfully installed." "$GREEN"
+        else
+            print_message "Failed to install Git. Please install it manually and run this script again." "$RED"
+            exit 1
+        fi
+    else
+        print_message "Git is already installed." "$GREEN"
+    fi
+}
+
 # Function to setup linuxtoolbox
 setup_linuxtoolbox() {
+    check_and_install_git
+
     LINUXTOOLBOXDIR="$HOME/linuxtoolbox"
 
     if [ ! -d "$LINUXTOOLBOXDIR" ]; then
@@ -33,13 +58,6 @@ setup_linuxtoolbox() {
     fi
 
     cd "$LINUXTOOLBOXDIR/bspwm-config" || exit
-}
-
-# Function to display colored messages
-print_message() {
-    local message="$1"
-    local color="$2"
-    echo -e "${color}${message}${ENDCOLOR}"
 }
 
 # Function to set up AUR helper
@@ -88,26 +106,48 @@ install_packages() {
 
 # Function to move configurations
 move_configs() {
-    print_message "Moving configurations..." "$YELLOW"
+    print_message "WARNING: This will overwrite existing configuration files. Make sure you have backups if needed." "$YELLOW"
+    sleep 5  # Pause for 5 seconds to allow the user to read the warning
+
+    print_message "Moving configs..." "$YELLOW"
 
     # Configuration files to move
-    local config_files=(
-        "bspwm/bspwmrc:~/.config/bspwm/bspwmrc:exec"
-        "sxhkd/sxhkdrc:~/.config/sxhkd/sxhkdrc:exec"
-        "kitty/kitty.conf:~/.config/kitty/kitty.conf"
-        "rofi/config.rasi:~/.config/rofi/config.rasi"
+    config_files=(
+        "bspwm/bspwmrc:$HOME/.config/bspwm/bspwmrc:exec"
+        "sxhkd/sxhkdrc:$HOME/.config/sxhkd/sxhkdrc:exec"
+        "kitty/kitty.conf:$HOME/.config/kitty/kitty.conf"
+        "rofi/config.rasi:$HOME/.config/rofi/config.rasi"
         "polybar/config.ini:/etc/polybar/config.ini"
     )
 
     # Move each configuration file
     for config in "${config_files[@]}"; do
         IFS=':' read -r src dest exec_flag <<< "$config"
+        src="$LINUXTOOLBOXDIR/bspwm-config/$src"
+        
+        if [ ! -e "$src" ]; then
+            print_message "Source does not exist: $src" "$RED"
+            continue
+        fi
+
         sudo mkdir -p "$(dirname "$dest")"
-        if sudo mv -vf "$LINUXTOOLBOXDIR/bspwm-config/$src" "$dest"; then
-            print_message "Successfully moved $src to $dest" "$GREEN"
-            [[ "$exec_flag" == "exec" ]] && sudo chmod +x "$dest"
+        if [ -d "$src" ]; then
+            if sudo mv -vf "$src" "$(dirname "$dest")"; then
+                print_message "Successfully moved directory $src to $(dirname "$dest")" "$GREEN"
+            else
+                print_message "Failed to move directory $src to $(dirname "$dest")" "$RED"
+            fi
         else
-            print_message "Failed to move $src to $dest" "$RED"
+            if sudo mv -vf "$src" "$dest"; then
+                print_message "Successfully moved $src to $dest" "$GREEN"
+            else
+                print_message "Failed to move $src to $dest" "$RED"
+            fi
+        fi
+
+        if [[ "$exec_flag" == "exec" ]]; then
+            sudo chmod +x "$dest"
+            print_message "Made $dest executable" "$GREEN"
         fi
     done
 
