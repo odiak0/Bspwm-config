@@ -13,17 +13,31 @@ print_message() {
     echo -e "${color}${message}${ENDCOLOR}"
 }
 
-# Check if pacman exists
-if ! command -v pacman &> /dev/null; then
-    print_message "Error: pacman not found. This script is intended for Arch-based systems." "$RED"
-    exit 1
-fi
+# Function to detect package manager
+detect_package_manager() {
+    if command -v apt-get &> /dev/null; then
+        PACKAGER="apt-get"
+        PACKAGER_INSTALL="sudo apt-get install -y"
+        PACKAGER_UPDATE="sudo apt-get update && sudo apt-get upgrade -y"
+    elif command -v dnf &> /dev/null; then
+        PACKAGER="dnf"
+        PACKAGER_INSTALL="sudo dnf install -y"
+        PACKAGER_UPDATE="sudo dnf upgrade -y"
+    elif command -v pacman &> /dev/null; then
+        PACKAGER="pacman"
+        PACKAGER_INSTALL="sudo pacman -S --noconfirm"
+        PACKAGER_UPDATE="sudo pacman -Syu"
+    else
+        print_message "Error: Unsupported package manager. Please install packages manually." "$RED"
+        exit 1
+    fi
+}
 
 # Function to check and install Git
 check_and_install_git() {
     if ! command -v git &> /dev/null; then
         print_message "Git is not installed. Installing Git..." "$YELLOW"
-        sudo pacman -S --noconfirm git
+        $PACKAGER_INSTALL git
         if command -v git &> /dev/null; then
             print_message "Git has been successfully installed." "$GREEN"
         else
@@ -60,8 +74,12 @@ setup_linuxtoolbox() {
     cd "$LINUXTOOLBOXDIR/bspwm-config" || exit
 }
 
-# Function to set up AUR helper
+# Function to set up AUR helper (only for Arch-based systems)
 setup_aur_helper() {
+    if [ "$PACKAGER" != "pacman" ]; then
+        return
+    fi
+
     # Ask user to choose between paru and yay
     read -rp "Do you want to use paru or yay as your AUR helper? (p/y) " aur_helper
     if [[ $aur_helper =~ ^[Pp]$ ]]; then
@@ -85,10 +103,8 @@ setup_aur_helper() {
 install_packages() {
     print_message "Installing packages..." "$YELLOW"
 
-    setup_aur_helper
-
-    # List of packages to install
-    local packages=(
+    # Package manager specific packages
+    local pacman_packages=(
         feh btop kitty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk
         fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code
         ttf-dejavu ttf-liberation google-chrome rofi bspwm sxhkd polybar gvfs thunar
@@ -97,11 +113,45 @@ install_packages() {
         fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
     )
 
-    "$helper" -S --noconfirm --needed "${packages[@]}"
+    local apt_packages=(
+        feh btop kitty picom flameshot x11-xserver-utils xclip xdg-desktop-portal-gtk
+        fuse fonts-noto fonts-noto-color-emoji fonts-crosextra-caladea fonts-crosextra-carlito
+        fonts-dejavu fonts-liberation2 rofi bspwm
+        sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-media-tags-plugin
+        thunar-volman lxpolkit unzip wget curl pipewire wireplumber pavucontrol
+        xarchiver build-essential linux-headers-amd64 neovim lxappearance
+        papirus-icon-theme sddm psmisc dunst
+    )
 
-    # Enable sddm
-    sudo systemctl enable sddm
-    sudo systemctl set-default graphical.target
+    local dnf_packages=(
+        feh btop kitty picom flameshot xsetroot xclip xdg-desktop-portal-gtk
+        fuse google-noto-fonts-all google-noto-emoji-fonts google-carlito-fonts
+        cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi bspwm sxhkd
+        polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
+        lxpolkit unzip wget curl pipewire wireplumber pavucontrol xarchiver kernel-devel
+        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
+    )
+
+    case $PACKAGER in
+        pacman)
+            setup_aur_helper
+            "$helper" -S --noconfirm --needed "${pacman_packages[@]}"
+            sudo systemctl enable sddm
+            sudo systemctl set-default graphical.target
+            ;;
+        apt-get)
+            for package in "${apt_packages[@]}"; do
+                $PACKAGER_INSTALL "$package"
+            done
+            sudo systemctl set-default graphical.target
+            ;;
+        dnf)
+            for package in "${dnf_packages[@]}"; do
+                $PACKAGER_INSTALL "$package"
+            done
+            sudo systemctl set-default graphical.target
+            ;;
+    esac
 }
 
 # Function to move configurations
@@ -171,20 +221,31 @@ move_configs() {
 install_nvidia_drivers() {
     print_message "Installing NVIDIA drivers..." "$YELLOW"
     
-    # Ensure AUR helper is set up
-    if [ -z "$helper" ]; then
-        setup_aur_helper
-    fi
-    
-    "$helper" -S --noconfirm nvidia-dkms lib32-nvidia-utils
+    case $PACKAGER in
+        pacman)
+            $PACKAGER_INSTALL nvidia-dkms lib32-nvidia-utils
+            ;;
+        apt-get)
+            print_message "For Debian/Ubuntu-based systems, please install NVIDIA drivers manually." "$YELLOW"
+            print_message "Refer to your distribution's documentation for the correct installation process." "$YELLOW"
+            ;;
+        dnf)
+            print_message "For Fedora-based systems, please install NVIDIA drivers manually." "$YELLOW"
+            print_message "Refer to the Fedora documentation for the correct installation process." "$YELLOW"
+            ;;
+        *)
+            print_message "Automatic NVIDIA driver installation not supported for this distribution. Please install manually." "$RED"
+            ;;
+    esac
 }
 
 # Main function
 main() {
+    detect_package_manager
     setup_linuxtoolbox
 
     print_message "Updating system..." "$YELLOW"
-    sudo pacman -Syu
+    $PACKAGER_UPDATE
 
     read -rp "Would you like to install the packages? (y/n) " pkgs
     if [[ $pkgs =~ ^[Yy]$ ]]; then
