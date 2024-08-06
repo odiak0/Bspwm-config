@@ -226,12 +226,10 @@ install_nvidia_drivers() {
             $PACKAGER_INSTALL nvidia-dkms lib32-nvidia-utils
             ;;
         apt-get)
-            print_message "For Debian/Ubuntu-based systems, please install NVIDIA drivers manually." "$YELLOW"
-            print_message "Refer to your distribution's documentation for the correct installation process." "$YELLOW"
+            whiptail --title "NVIDIA Driver Installation" --msgbox "For Debian/Ubuntu-based systems, please install NVIDIA drivers manually.\n\nRefer to your distribution's documentation for the correct installation process." 10 60
             ;;
         dnf)
-            print_message "For Fedora-based systems, please install NVIDIA drivers manually." "$YELLOW"
-            print_message "Refer to the Fedora documentation for the correct installation process." "$YELLOW"
+            whiptail --title "NVIDIA Driver Installation" --msgbox "For Fedora-based systems, please install NVIDIA drivers manually.\n\nRefer to the Fedora documentation for the correct installation process." 10 60
             ;;
         *)
             print_message "Automatic NVIDIA driver installation not supported for this distribution. Please install manually." "$RED"
