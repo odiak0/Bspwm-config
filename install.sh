@@ -168,12 +168,12 @@ move_configs() {
         "sxhkd/sxhkdrc:$HOME/.config/sxhkd/sxhkdrc:exec"
         "kitty/kitty.conf:$HOME/.config/kitty/kitty.conf"
         "rofi/config.rasi:$HOME/.config/rofi/config.rasi"
-        "polybar/config.ini:/etc/polybar/config.ini"
+        "polybar/config.ini:/etc/polybar/config.ini:sudo"
     )
 
     # Move each configuration file
     for config in "${config_files[@]}"; do
-        IFS=':' read -r src dest exec_flag <<< "$config"
+        IFS=':' read -r src dest action <<< "$config"
         src="$LINUXTOOLBOXDIR/bspwm-config/$src"
         
         if [ ! -e "$src" ]; then
@@ -181,23 +181,24 @@ move_configs() {
             continue
         fi
 
-        sudo mkdir -p "$(dirname "$dest")"
-        if [ -d "$src" ]; then
-            if sudo mv -vf "$src" "$(dirname "$dest")"; then
-                print_message "Successfully moved directory $src to $(dirname "$dest")" "$GREEN"
+        if [[ "$action" == "sudo" ]]; then
+            sudo mkdir -p "$(dirname "$dest")"
+            if sudo mv -vf "$src" "$dest"; then
+                print_message "Successfully moved $src to $dest" "$GREEN"
             else
-                print_message "Failed to move directory $src to $(dirname "$dest")" "$RED"
+                print_message "Failed to move $src to $dest" "$RED"
             fi
         else
-            if sudo mv -vf "$src" "$dest"; then
+            mkdir -p "$(dirname "$dest")"
+            if mv -vf "$src" "$dest"; then
                 print_message "Successfully moved $src to $dest" "$GREEN"
             else
                 print_message "Failed to move $src to $dest" "$RED"
             fi
         fi
 
-        if [[ "$exec_flag" == "exec" ]]; then
-            sudo chmod +x "$dest"
+        if [[ "$action" == "exec" ]]; then
+            chmod +x "$dest"
             print_message "Made $dest executable" "$GREEN"
         fi
     done
