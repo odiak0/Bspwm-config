@@ -125,7 +125,7 @@ install_packages() {
 
     local dnf_packages=(
         feh btop kitty picom flameshot xsetroot xclip xdg-desktop-portal-gtk
-        fuse google-noto-fonts-all google-noto-emoji-fonts google-carlito-fonts
+        fuse google-noto-emoji-fonts google-carlito-fonts
         cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi bspwm sxhkd
         polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
         lxpolkit unzip wget curl pipewire wireplumber pavucontrol xarchiver kernel-devel
