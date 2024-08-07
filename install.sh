@@ -2,7 +2,6 @@
 
 # Colors for better readability
 GREEN="\e[32m"
-RED="\e[31m"
 YELLOW="\e[33m"
 ENDCOLOR="\e[0m"
 
@@ -10,11 +9,7 @@ ENDCOLOR="\e[0m"
 print_message() {
     local message="$1"
     local color="$2"
-    if [ "$color" = "$RED" ]; then
-        whiptail --title "Error" --msgbox "$message" 8 78
-    else
-        echo -e "${color}${message}${ENDCOLOR}"
-    fi
+    echo -e "${color}${message}${ENDCOLOR}"
 }
 
 # Function to detect package manager
@@ -32,7 +27,7 @@ detect_package_manager() {
         PACKAGER_INSTALL="sudo pacman -S --noconfirm"
         PACKAGER_UPDATE="sudo pacman -Syu"
     else
-        print_message "Error: Unsupported package manager. Please install packages manually." "$RED"
+        whiptail --title "Error" --msgbox "Error: Unsupported package manager. Please install packages manually." 8 78
         exit 1
     fi
 }
@@ -45,7 +40,7 @@ check_and_install_git() {
         if command -v git &> /dev/null; then
             print_message "Git has been successfully installed." "$GREEN"
         else
-            print_message "Failed to install Git. Please install it manually and run this script again." "$RED"
+            whiptail --title "Error" --msgbox "Failed to install Git. Please install it manually and run this script again." 8 78
             exit 1
         fi
     else
@@ -70,7 +65,7 @@ setup_linuxtoolbox() {
         if git clone https://github.com/odiak0/bspwm-config "$LINUXTOOLBOXDIR/bspwm-config"; then
             print_message "Successfully cloned bspwm-config repository" "$GREEN"
         else
-            print_message "Failed to clone bspwm-config repository" "$RED"
+            whiptail --title "Error" --msgbox "Failed to clone bspwm-config repository" 8 78
             exit 1
         fi
     fi
@@ -84,12 +79,12 @@ setup_aur_helper() {
         return
     fi
 
-    # Ask user to choose between paru and yay
-    read -rp "Do you want to use paru or yay as your AUR helper? (p/y) " aur_helper
-    if [[ $aur_helper =~ ^[Pp]$ ]]; then
-        helper="paru"
-    else
-        helper="yay"
+    # Ask user to choose between paru and yay using whiptail
+    if ! helper=$(whiptail --title "AUR Helper Selection" --menu "Choose your preferred AUR helper:" 15 60 2 \
+    "paru" "Rust-based AUR helper" \
+    "yay" "Go-based AUR helper" 3>&1 1>&2 2>&3); then
+        print_message "AUR helper selection cancelled. Exiting." "$YELLOW"
+        exit 1
     fi
 
     # Install chosen AUR helper if not present
@@ -177,7 +172,7 @@ move_configs() {
         src="$LINUXTOOLBOXDIR/bspwm-config/$src"
         
         if [ ! -e "$src" ]; then
-            print_message "Source does not exist: $src" "$RED"
+            whiptail --title "Error" --msgbox "Source does not exist: $src" 8 78
             continue
         fi
 
@@ -186,14 +181,14 @@ move_configs() {
             if sudo mv -vf "$src" "$dest"; then
                 print_message "Successfully moved $src to $dest" "$GREEN"
             else
-                print_message "Failed to move $src to $dest" "$RED"
+                whiptail --title "Error" --msgbox "Failed to move $src to $dest" 8 78
             fi
         else
             mkdir -p "$(dirname "$dest")"
             if mv -vf "$src" "$dest"; then
                 print_message "Successfully moved $src to $dest" "$GREEN"
             else
-                print_message "Failed to move $src to $dest" "$RED"
+                whiptail --title "Error" --msgbox "Failed to move $src to $dest" 8 78
             fi
         fi
 
@@ -208,14 +203,14 @@ move_configs() {
     if mv -vf "$LINUXTOOLBOXDIR/bspwm-config/wallpaper/"* ~/wallpaper; then
         print_message "Moved wallpapers successfully" "$GREEN"
     else
-        print_message "Failed to move wallpapers" "$RED"
+        whiptail --title "Error" --msgbox "Failed to move wallpapers" 8 78
     fi
 
     # Install theme
     if sudo git clone https://github.com/EliverLara/Nordic.git /usr/share/themes/Nordic; then
         print_message "Installed Nordic theme successfully" "$GREEN"
     else
-        print_message "Failed to install Nordic theme" "$RED"
+        whiptail --title "Error" --msgbox "Failed to install Nordic theme" 8 78
     fi
 }
 
@@ -234,7 +229,7 @@ install_nvidia_drivers() {
             whiptail --title "NVIDIA Driver Installation" --msgbox "For Fedora-based systems, please install NVIDIA drivers manually.\n\nRefer to the Fedora documentation for the correct installation process." 10 60
             ;;
         *)
-            print_message "Automatic NVIDIA driver installation not supported for this distribution. Please install manually." "$RED"
+            whiptail --title "Error" --msgbox "Automatic NVIDIA driver installation not supported for this distribution. Please install manually." 8 78
             ;;
     esac
 }
