@@ -153,11 +153,11 @@ install_packages() {
     esac
 }
 
-# Function to move configurations
-move_configs() {
-    print_message "Moving configs..." "$YELLOW"
+# Function to copy configurations
+copy_configs() {
+    print_message "Copying configs..." "$YELLOW"
 
-    # Configuration files to move
+    # Configuration files to copy
     config_files=(
         "bspwm/bspwmrc:$HOME/.config/bspwm/bspwmrc:exec"
         "sxhkd/sxhkdrc:$HOME/.config/sxhkd/sxhkdrc:exec"
@@ -166,7 +166,7 @@ move_configs() {
         "polybar/config.ini:/etc/polybar/config.ini:sudo"
     )
 
-    # Move each configuration file
+    # Copy each configuration file
     for config in "${config_files[@]}"; do
         IFS=':' read -r src dest action <<< "$config"
         src="$LINUXTOOLBOXDIR/bspwm-config/$src"
@@ -178,17 +178,17 @@ move_configs() {
 
         if [[ "$action" == "sudo" ]]; then
             sudo mkdir -p "$(dirname "$dest")"
-            if sudo mv -vf "$src" "$dest"; then
-                print_message "Successfully moved $src to $dest" "$GREEN"
+            if sudo cp -vf "$src" "$dest"; then
+                print_message "Successfully copied $src to $dest" "$GREEN"
             else
-                whiptail --title "Error" --msgbox "Failed to move $src to $dest" 8 78
+                whiptail --title "Error" --msgbox "Failed to copy $src to $dest" 8 78
             fi
         else
             mkdir -p "$(dirname "$dest")"
-            if mv -vf "$src" "$dest"; then
-                print_message "Successfully moved $src to $dest" "$GREEN"
+            if cp -vf "$src" "$dest"; then
+                print_message "Successfully copied $src to $dest" "$GREEN"
             else
-                whiptail --title "Error" --msgbox "Failed to move $src to $dest" 8 78
+                whiptail --title "Error" --msgbox "Failed to copy $src to $dest" 8 78
             fi
         fi
 
@@ -198,12 +198,12 @@ move_configs() {
         fi
     done
 
-    # Move wallpapers
+    # Copy wallpapers
     mkdir -p ~/wallpaper
-    if mv -vf "$LINUXTOOLBOXDIR/bspwm-config/wallpaper/"* ~/wallpaper; then
-        print_message "Moved wallpapers successfully" "$GREEN"
+    if cp -vf "$LINUXTOOLBOXDIR/bspwm-config/wallpaper/"* ~/wallpaper; then
+        print_message "Copied wallpapers successfully" "$GREEN"
     else
-        whiptail --title "Error" --msgbox "Failed to move wallpapers" 8 78
+        whiptail --title "Error" --msgbox "Failed to copy wallpapers" 8 78
     fi
 
     # Install theme
@@ -248,10 +248,10 @@ main() {
         print_message "No packages installed." "$YELLOW"
     fi
 
-    if whiptail --title "Move Configs" --yesno "Would you like to move the configs?\n\nWARNING: This will overwrite existing configuration files. Make sure you have backups if needed." 12 78; then
-        move_configs
+    if whiptail --title "Copy Configs" --yesno "Would you like to copy the configs?\n\nWARNING: This will overwrite existing configuration files. Make sure you have backups if needed." 12 78; then
+        copy_configs
     else
-        print_message "No configs moved." "$YELLOW"
+        print_message "No configs copied." "$YELLOW"
     fi
 
     if whiptail --title "Install NVIDIA Drivers" --yesno "Would you like to install NVIDIA drivers?" 8 78; then
