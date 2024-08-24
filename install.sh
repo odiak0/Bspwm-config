@@ -109,17 +109,16 @@ install_packages() {
         ttf-dejavu ttf-liberation google-chrome rofi-wayland bspwm sxhkd polybar gvfs thunar
         thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip
         wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers
-        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
+        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst celluloid
     )
 
     local apt_packages=(
         feh btop kitty picom flameshot x11-xserver-utils xclip xdg-desktop-portal-gtk
         fuse fonts-noto fonts-noto-color-emoji fonts-crosextra-caladea fonts-crosextra-carlito
-        fonts-dejavu fonts-liberation2 rofi bspwm
+        fonts-dejavu fonts-liberation2 rofi bspwm dunst papirus-icon-theme sddm psmisc
         sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-media-tags-plugin
         thunar-volman lxpolkit unzip wget curl pipewire wireplumber pavucontrol
-        xarchiver build-essential linux-headers-amd64 neovim lxappearance
-        papirus-icon-theme sddm psmisc dunst
+        xarchiver build-essential linux-headers-amd64 neovim lxappearance celluloid
     )
 
     local dnf_packages=(
@@ -128,7 +127,7 @@ install_packages() {
         cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi-wayland bspwm sxhkd
         polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
         lxpolkit unzip wget curl pipewire wireplumber pavucontrol xarchiver kernel-devel
-        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst
+        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst celluloid
     )
 
     case $PACKAGER in
