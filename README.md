@@ -1,1 +1,1 @@
-![Screenshot](https://i.ibb.co/ccQ8CKD/2024-04-27-16-15.png)
+![Screenshot](https://raw.githubusercontent.com/odiak0/Bspwm-config/main/data/bspwm.png)
