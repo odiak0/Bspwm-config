@@ -115,7 +115,7 @@ install_packages() {
     local apt_packages=(
         feh btop alacritty picom flameshot x11-xserver-utils xclip xdg-desktop-portal-gtk
         fuse fonts-noto fonts-noto-color-emoji fonts-crosextra-caladea fonts-crosextra-carlito
-        fonts-dejavu fonts-liberation2 rofi bspwm dunst papirus-icon-theme sddm psmisc
+        fonts-dejavu fonts-liberation2 rofi bspwm dunst papirus-icon-theme lightdm psmisc
         sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-media-tags-plugin
         thunar-volman lxpolkit unzip wget curl pipewire wireplumber pavucontrol
         xarchiver build-essential linux-headers-amd64 neovim lxappearance celluloid
