@@ -104,7 +104,7 @@ install_packages() {
 
     # Package manager specific packages
     local pacman_packages=(
-        feh btop kitty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk
+        feh btop alacritty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk
         fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code
         ttf-dejavu ttf-liberation google-chrome rofi-wayland bspwm sxhkd polybar gvfs thunar
         thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip
@@ -113,7 +113,7 @@ install_packages() {
     )
 
     local apt_packages=(
-        feh btop kitty picom flameshot x11-xserver-utils xclip xdg-desktop-portal-gtk
+        feh btop alacritty picom flameshot x11-xserver-utils xclip xdg-desktop-portal-gtk
         fuse fonts-noto fonts-noto-color-emoji fonts-crosextra-caladea fonts-crosextra-carlito
         fonts-dejavu fonts-liberation2 rofi bspwm dunst papirus-icon-theme sddm psmisc
         sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-media-tags-plugin
@@ -122,7 +122,7 @@ install_packages() {
     )
 
     local dnf_packages=(
-        feh btop kitty picom flameshot xsetroot xclip xdg-desktop-portal-gtk
+        feh btop alacritty picom flameshot xsetroot xclip xdg-desktop-portal-gtk
         fuse google-noto-emoji-fonts google-carlito-fonts xorg-x11-server-Xorg
         cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi-wayland bspwm sxhkd
         polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
@@ -160,8 +160,9 @@ copy_configs() {
     config_files=(
         "bspwm/bspwmrc:$HOME/.config/bspwm/bspwmrc:exec"
         "sxhkd/sxhkdrc:$HOME/.config/sxhkd/sxhkdrc:exec"
-        "kitty/kitty.conf:$HOME/.config/kitty/kitty.conf"
+        "alacritty/alacritty.toml:$HOME/.config/alacritty/alacritty.toml"
         "rofi/config.rasi:$HOME/.config/rofi/config.rasi"
+        "sddm-theme/aerial:/usr/share/sddm/themes/aerial:sudo"
         "polybar/config.ini:/etc/polybar/config.ini:sudo"
     )
 

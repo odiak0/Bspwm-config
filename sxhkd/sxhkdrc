@@ -1,6 +1,6 @@
 # terminal emulator
 super + q
-	kitty
+	alacritty
 
 # workspaces
 super + {1-9}
