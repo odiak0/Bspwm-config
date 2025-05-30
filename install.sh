@@ -1,18 +1,15 @@
 #!/bin/bash
 
-# Colors for better readability
 GREEN="\e[32m"
 YELLOW="\e[33m"
 ENDCOLOR="\e[0m"
 
-# Function to display colored messages
 print_message() {
     local message="$1"
     local color="$2"
     echo -e "${color}${message}${ENDCOLOR}"
 }
 
-# Function to detect package manager
 detect_package_manager() {
     if command -v apt-get &> /dev/null; then
         PACKAGER="apt-get"
@@ -32,7 +29,6 @@ detect_package_manager() {
     fi
 }
 
-# Function to check and install Git
 check_and_install_git() {
     if ! command -v git &> /dev/null; then
         print_message "Git is not installed. Installing Git..." "$YELLOW"
@@ -48,7 +44,6 @@ check_and_install_git() {
     fi
 }
 
-# Function to setup linuxtoolbox
 setup_linuxtoolbox() {
     check_and_install_git
 
@@ -73,13 +68,11 @@ setup_linuxtoolbox() {
     cd "$LINUXTOOLBOXDIR/bspwm-config" || exit
 }
 
-# Function to set up AUR helper (only for Arch-based systems)
 setup_aur_helper() {
     if [ "$PACKAGER" != "pacman" ]; then
         return
     fi
 
-    # Ask user to choose between paru and yay using whiptail
     if ! helper=$(whiptail --title "AUR Helper Selection" --menu "Choose your preferred AUR helper:" 15 60 2 \
     "paru" "Rust-based AUR helper" \
     "yay" "Go-based AUR helper" 3>&1 1>&2 2>&3); then
@@ -87,7 +80,6 @@ setup_aur_helper() {
         exit 1
     fi
 
-    # Install chosen AUR helper if not present
     if ! command -v "$helper" &> /dev/null; then
         print_message "Installing $helper..." "$YELLOW"
         cd || exit
@@ -98,11 +90,9 @@ setup_aur_helper() {
     fi
 }
 
-# Function to install packages
 install_packages() {
     print_message "Installing packages..." "$YELLOW"
 
-    # Package manager specific packages
     local pacman_packages=(
         feh btop alacritty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk
         fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code
@@ -152,7 +142,6 @@ install_packages() {
     esac
 }
 
-# Function to copy configurations
 copy_configs() {
     print_message "Copying configs..." "$YELLOW"
 
@@ -214,7 +203,6 @@ copy_configs() {
     fi
 }
 
-# Function to install NVIDIA drivers
 install_nvidia_drivers() {
     print_message "Installing NVIDIA drivers..." "$YELLOW"
     
@@ -234,7 +222,6 @@ install_nvidia_drivers() {
     esac
 }
 
-# Main function
 main() {
     detect_package_manager
     setup_linuxtoolbox
@@ -263,5 +250,4 @@ main() {
     whiptail --title "Installation Complete" --msgbox "Installation completed. You can now reboot your system!" 8 78
 }
 
-# Run the main function
 main
