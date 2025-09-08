@@ -96,7 +96,7 @@ install_packages() {
     local pacman_packages=(
         feh btop alacritty picom flameshot xorg-xsetroot xclip xdg-desktop-portal-gtk
         fuse2 noto-fonts noto-fonts-emoji ttf-caladea ttf-carlito ttf-cascadia-code
-        ttf-dejavu ttf-liberation google-chrome rofi-wayland bspwm sxhkd polybar gvfs thunar
+        ttf-dejavu ttf-liberation google-chrome rofi bspwm sxhkd polybar gvfs thunar
         thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip
         wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers
         fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst celluloid
@@ -114,7 +114,7 @@ install_packages() {
     local dnf_packages=(
         feh btop alacritty picom flameshot xsetroot xclip xdg-desktop-portal-gtk
         fuse google-noto-emoji-fonts google-carlito-fonts xorg-x11-server-Xorg
-        cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi-wayland bspwm sxhkd
+        cascadia-code-fonts dejavu-sans-fonts liberation-fonts rofi bspwm sxhkd
         polybar gvfs thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
         lxpolkit unzip wget curl pipewire wireplumber pavucontrol xarchiver kernel-devel
         fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst celluloid
