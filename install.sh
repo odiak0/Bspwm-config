@@ -99,7 +99,7 @@ install_packages() {
         ttf-dejavu ttf-liberation google-chrome rofi bspwm sxhkd polybar gvfs thunar
         thunar-archive-plugin thunar-media-tags-plugin thunar-volman lxsession unzip
         wget curl pipewire wireplumber pavucontrol xarchiver base-devel linux-headers
-        fastfetch neovim lxappearance papirus-icon-theme sddm psmisc dunst celluloid
+        fastfetch neovim nwg-look papirus-icon-theme sddm psmisc dunst celluloid
     )
 
     local apt_packages=(
@@ -108,7 +108,7 @@ install_packages() {
         fonts-dejavu fonts-liberation2 rofi bspwm dunst papirus-icon-theme lightdm psmisc
         sxhkd polybar gvfs-backends thunar thunar-archive-plugin thunar-media-tags-plugin
         thunar-volman lxpolkit unzip wget curl pipewire wireplumber pavucontrol
-        xarchiver build-essential linux-headers-amd64 neovim lxappearance celluloid
+        xarchiver build-essential linux-headers-amd64 neovim nwg-look celluloid
     )
 
     local dnf_packages=(
