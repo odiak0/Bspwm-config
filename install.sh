@@ -208,7 +208,7 @@ install_nvidia_drivers() {
     
     case $PACKAGER in
         pacman)
-            $PACKAGER_INSTALL nvidia-dkms lib32-nvidia-utils
+            $PACKAGER_INSTALL nvidia-open-dkms lib32-nvidia-utils
             ;;
         apt-get)
             whiptail --title "NVIDIA Driver Installation" --msgbox "For Debian/Ubuntu-based systems, please install NVIDIA drivers manually.\n\nRefer to your distribution's documentation for the correct installation process." 10 60
